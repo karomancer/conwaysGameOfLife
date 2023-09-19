@@ -30,11 +30,9 @@
 *.exe
 *.out
 *.app
-libs/
-docs/
-
 *.xcodeproj
 *.xcuserstate
+
 *.depend
 *.layout
 *.mode*v3
@@ -55,7 +53,6 @@ ipch/
 *.opensdf
 *.vcxproj.user
 
-*.obj
 *.tlog
 *.sdf
 *.pdb

@@ -4,7 +4,7 @@
 void ofApp::setup(){
     gui.setup("controls");
     gui.add(pixelSize.setup("pixelSize", 4, 1, 20));
-    gui.add(speed.setup("speed (fps)", 24, 1, 24));
+    gui.add(speed.setup("speed (fps)", 24, 1, 24));        
     
     gui.add(resetButton.setup("reset"));
     gui.add(isPlaying.set("isPlaying", true));
@@ -36,13 +36,8 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    gameBoardImg.draw(0, 0);
+    gameBoardImg.draw(0, 0, ofGetWidth(), ofGetHeight());
     gui.draw();
-}
-
-//--------------------------------------------------------------
-void ofApp::exit(){
-
 }
 
 //--------------------------------------------------------------
@@ -90,16 +85,6 @@ float ofApp::nextPixelState(int x, int y) {
         {x + pixelSize, y+ pixelSize} // bottom right
     };
     
-    //------------------------------//
-    //----- PRINT FOR DEBUGGING ----//
-    // Printing is highly inefficient and causes crashing with this many pixels, heads up.
-    //------------------------------//
-//    cout << "currentPixel: " << pixelIndex << endl << "neighbors: " << endl;
-//    for (int n = 0; n < 8; n++) {
-//        cout << " " << pixels[n] << ": " << gameBoardImg.getPixels()[pixels[n]] << endl;
-//    }
-//    cout << endl << endl;
-    
     for (int i = 0; i < 8; i++) {
         // If neighbor pixel is within bounds
         if (pixels[i][0] >= 0 && pixels[i][0] < gameBoard.getWidth() && pixels[i][1] >= 0 && pixels[i][1] < gameBoard.getHeight()) {
@@ -130,64 +115,4 @@ float ofApp::nextPixelState(int x, int y) {
     }
     
     return dead;
-}
-
-//--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-    
-}
-
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseScrolled(int x, int y, float scrollX, float scrollY){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){ 
-
 }
