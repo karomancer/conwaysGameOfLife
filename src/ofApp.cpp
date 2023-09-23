@@ -6,19 +6,24 @@ void ofApp::setup(){
     gui.add(pixelSize.setup("pixelSize", 4, 1, 20));
     gui.add(speed.setup("speed (fps)", 24, 1, 24));        
     
-    gui.add(resetButton.setup("reset"));
+    gui.add(resetButton.setup("randomize"));
+    gui.add(takePhotoButton.setup("take photo"));
     gui.add(isPlaying.set("isPlaying", true));
     
     resetButton.addListener(this,&ofApp::generateSeed);
+        
+    takePhotoButton.addListener(this,&ofApp::takePhoto);
     
     gameBoardImg.allocate(ofGetScreenWidth(), ofGetScreenHeight(), OF_IMAGE_GRAYSCALE);
+    grabber.setup(ofGetScreenWidth(), ofGetScreenHeight());
     gameBoard = gameBoardImg.getPixels();
     
-    generateSeed();
+    takePhoto();
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    grabber.update();
     if (isPlaying) {
         ofSetFrameRate(speed);
         for (int y = 0; y < gameBoardImg.getHeight(); y += pixelSize)
@@ -52,12 +57,28 @@ void ofApp::generateSeed() {
           setPixelColor(x, y, ofRandomuf() < 0.5 ? alive : dead);
       }
     }
-    
-//    for (int i = 0; i < gameBoard.size(); i++ ) {
-//        float pixelColor = (int)ofRandom(100) % 7 == 0 ? alive : dead;
-//        gameBoard[i] = pixelColor;
-//    }
+
     gameBoardImg.setFromPixels(gameBoard);
+    gameBoardImg.update();
+}
+
+void ofApp::takePhoto() {
+    ofPixels& grabberPix = grabber.getPixels();
+    ofPixels& threshPix = gameBoardImg.getPixels();
+    
+    for (int y = 0; y < grabberPix.getHeight(); y++) {
+        for (int x = 0; x < grabberPix.getWidth(); x++) {
+            ofColor color = grabberPix.getColor(x,y);
+            
+            if (color.getBrightness() > threshold) {
+                color = dead;
+            } else {
+                color = alive;
+            }
+            
+            threshPix.setColor(x, y, color);
+        }
+    }
     gameBoardImg.update();
 }
 
